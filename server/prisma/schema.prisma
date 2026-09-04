@@ -3,6 +3,100 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  ADMIN
+  STAFF
+}
+
+enum MealStatus {
+  AVAILABLE
+  OUT_OF_STOCK
+  ARCHIVED
+}
+
+enum TableLocation {
+  INDOOR
+  OUTDOOR
+  PRIVATE
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  SEATED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(STAFF)
+  createdAt    DateTime @default(now())
+}
+
+model Cuisine {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  description  String?
+  imageUrl     String?
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  meals        Meal[]
+}
+
+model Meal {
+  id              String     @id @default(cuid())
+  name            String
+  description     String?
+  price           Int
+  cuisineId       String
+  imageUrl        String?
+  prepTimeMinutes Int
+  status          MealStatus @default(AVAILABLE)
+  dietaryTags     String[]
+  isFeatured      Boolean    @default(false)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  cuisine         Cuisine    @relation(fields: [cuisineId], references: [id])
+
+  @@index([cuisineId, status])
+}
+
+model Table {
+  id           String        @id @default(cuid())
+  name         String        @unique
+  capacity     Int
+  location     TableLocation
+  isActive     Boolean       @default(true)
+  reservations Reservation[]
+}
+
+model Reservation {
+  id              String            @id @default(cuid())
+  referenceCode   String            @unique
+  guestName       String
+  guestPhone      String
+  guestEmail      String?
+  partySize       Int
+  reservationDate DateTime          @db.Date
+  startTime       DateTime          @db.Time(6)
+  endTime         DateTime          @db.Time(6)
+  tableId         String
+  specialRequests String?
+  status          ReservationStatus @default(PENDING)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  table           Table             @relation(fields: [tableId], references: [id])
+
+  @@index([reservationDate, tableId])
 }
