@@ -3,6 +3,7 @@ import express from 'express'
 import { env } from './config/env.js'
 import { errorHandler, notFoundHandler } from './middleware/error-handler.js'
 import { authRouter } from './routes/auth.routes.js'
+import { cuisineRouter } from './routes/cuisine.routes.js'
 import { healthRouter } from './routes/health.routes.js'
 
 export const app = express()
@@ -11,5 +12,6 @@ app.use(cors({ origin: env.CLIENT_URL }))
 app.use(express.json())
 app.use('/api/health', healthRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/cuisines', cuisineRouter)
 app.use(notFoundHandler)
 app.use(errorHandler)
