@@ -5,6 +5,7 @@ import { errorHandler, notFoundHandler } from './middleware/error-handler.js'
 import { authRouter } from './routes/auth.routes.js'
 import { cuisineRouter } from './routes/cuisine.routes.js'
 import { healthRouter } from './routes/health.routes.js'
+import { mealRouter } from './routes/meal.routes.js'
 
 export const app = express()
 
@@ -13,5 +14,6 @@ app.use(express.json())
 app.use('/api/health', healthRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/cuisines', cuisineRouter)
+app.use('/api/meals', mealRouter)
 app.use(notFoundHandler)
 app.use(errorHandler)
