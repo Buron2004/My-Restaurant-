@@ -1,4 +1,7 @@
 import { Link, Route, Routes } from 'react-router-dom'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import AdminMealsPage from './pages/AdminMealsPage'
+import LoginPage from './pages/LoginPage'
 import './App.css'
 
 function HomePage() {
@@ -34,6 +37,10 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/health" element={<HealthPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/admin/meals" element={<AdminMealsPage />} />
+      </Route>
     </Routes>
   )
 }

@@ -9,7 +9,16 @@ import { mealRouter } from './routes/meal.routes.js'
 
 export const app = express()
 
-app.use(cors({ origin: env.CLIENT_URL }))
+app.use(cors({
+	origin: (origin, callback) => {
+		if (!origin || origin === env.CLIENT_URL || /^http:\/\/localhost:\d+$/.test(origin)) {
+			callback(null, true)
+			return
+		}
+
+		callback(new Error('Origin is not allowed by CORS.'))
+	},
+}))
 app.use(express.json())
 app.use('/api/health', healthRouter)
 app.use('/api/auth', authRouter)
