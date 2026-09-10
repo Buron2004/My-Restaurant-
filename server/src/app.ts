@@ -6,7 +6,9 @@ import { authRouter } from './routes/auth.routes.js'
 import { cuisineRouter } from './routes/cuisine.routes.js'
 import { healthRouter } from './routes/health.routes.js'
 import { mealRouter } from './routes/meal.routes.js'
+import { reservationRouter } from './routes/reservation.routes.js'
 import { tableRouter } from './routes/table.routes.js'
+
 
 export const app = express()
 
@@ -26,5 +28,6 @@ app.use('/api/auth', authRouter)
 app.use('/api/cuisines', cuisineRouter)
 app.use('/api/meals', mealRouter)
 app.use('/api/tables', tableRouter)
+app.use('/api/reservations', reservationRouter)
 app.use(notFoundHandler)
 app.use(errorHandler)
