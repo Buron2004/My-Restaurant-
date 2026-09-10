@@ -10,6 +10,8 @@ const OPENING_MINUTES = 11 * 60 // 11:00
 const CLOSING_MINUTES = 22 * 60 // 22:00
 const SLOT_INTERVAL_MINUTES = 30
 const RESERVATION_DURATION_MINUTES = 90
+const MAX_ADVANCE_BOOKING_DAYS = 60
+const MAX_ONLINE_PARTY_SIZE = 12
 
 interface OccupiedWindow {
   start: number
@@ -55,6 +57,44 @@ function parseDateOnly(date: string): Date {
 }
 
 /**
+ * Shared by availability checks and reservation creation (Day 11).
+ * Throws AppError if the date is in the past or too far in the future.
+ */
+export function assertBookableDate(date: string): void {
+  const requestedDate = parseDateOnly(date)
+  const today = parseDateOnly(new Date().toISOString().slice(0, 10))
+
+  if (requestedDate.getTime() < today.getTime()) {
+    throw new AppError('DATE_IN_PAST', 'Reservations cannot be made for a date in the past.', 400)
+  }
+
+  const maxDate = new Date(today)
+  maxDate.setUTCDate(maxDate.getUTCDate() + MAX_ADVANCE_BOOKING_DAYS)
+
+  if (requestedDate.getTime() > maxDate.getTime()) {
+    throw new AppError(
+      'DATE_TOO_FAR_AHEAD',
+      `Reservations can only be made up to ${MAX_ADVANCE_BOOKING_DAYS} days in advance.`,
+      400,
+    )
+  }
+}
+
+/**
+ * Shared by availability checks and reservation creation (Day 11).
+ * The 1-50 shape check lives in Zod; this enforces the actual business cap.
+ */
+export function assertOnlinePartySize(partySize: number): void {
+  if (partySize > MAX_ONLINE_PARTY_SIZE) {
+    throw new AppError(
+      'PARTY_TOO_LARGE_FOR_ONLINE_BOOKING',
+      'We can only take online bookings for parties of 12 or fewer. Please contact the restaurant directly for larger groups.',
+      400,
+    )
+  }
+}
+
+/**
  * Groups reservations by tableId, converting DB time columns into minute offsets,
  * so overlap checks are cheap integer comparisons.
  */
@@ -95,6 +135,8 @@ export async function getAvailability(query: AvailabilityQuery): Promise<{
   partySize: number
   slots: SlotAvailability[]
 }> {
+  assertBookableDate(query.date)
+  assertOnlinePartySize(query.partySize)
   const candidateTables = await findActiveTablesWithMinCapacity(query.partySize)
 
   if (candidateTables.length === 0) {
