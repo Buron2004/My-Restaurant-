@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import AdminMealsPage from './pages/AdminMealsPage'
+import AdminTablesPage from './pages/AdminTablesPage'
 import LoginPage from './pages/LoginPage'
 import './App.css'
 
@@ -40,6 +41,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/admin/meals" element={<AdminMealsPage />} />
+        <Route path="/admin/tables" element={<AdminTablesPage />} />
       </Route>
     </Routes>
   )
