@@ -5,6 +5,8 @@ import {
   findReservationsForDateAndTables,
 } from '../repositories/reservation.repository.js'
 import type { AvailabilityQuery } from '../schemas/reservation.schema.js'
+import { createReservationTransactionally, SlotConflictError } from '../repositories/reservation.repository.js'
+import type { CreateReservationInput } from '../schemas/reservation.schema.js'
 
 const OPENING_MINUTES = 11 * 60 // 11:00
 const CLOSING_MINUTES = 22 * 60 // 22:00
@@ -204,4 +206,83 @@ export async function findSmallestAvailableTable(
       isTableFreeForWindow(table.id, slotStart, slotEnd, occupiedByTable),
     ) ?? null
   )
+}
+
+function minutesToTimeDate(totalMinutes: number): Date {
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  return new Date(`1970-01-01T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00.000Z`)
+}
+
+function generateReferenceCode(): string {
+  // Excludes ambiguous characters (0/O, 1/I) for readability when guests read it back.
+  const charset = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ'
+  let code = ''
+  for (let i = 0; i < 6; i++) {
+    code += charset[Math.floor(Math.random() * charset.length)]
+  }
+  return `RSV-${code}`
+}
+
+export async function createReservation(input: CreateReservationInput) {
+  assertBookableDate(input.reservationDate)
+  assertOnlinePartySize(input.partySize)
+
+  // Server-side source of truth — never trusts whatever the frontend last showed as "available".
+  const table = await findSmallestAvailableTable(input.reservationDate, input.startTime, input.partySize)
+
+  if (!table) {
+    throw new AppError(
+      'NO_TABLE_AVAILABLE',
+      'No table is available for that date, time, and party size. Please choose a different time.',
+      409,
+    )
+  }
+
+  const [hours, minutes] = input.startTime.split(':').map(Number)
+  const slotStart = toMinutes(hours, minutes)
+  const slotEnd = slotStart + RESERVATION_DURATION_MINUTES
+  const reservationDate = parseDateOnly(input.reservationDate)
+  const startTime = minutesToTimeDate(slotStart)
+  const endTime = minutesToTimeDate(slotEnd)
+
+  const MAX_REFERENCE_CODE_ATTEMPTS = 5
+
+  for (let attempt = 1; attempt <= MAX_REFERENCE_CODE_ATTEMPTS; attempt++) {
+    try {
+      return await createReservationTransactionally({
+        tableId: table.id,
+        reservationDate,
+        startTime,
+        endTime,
+        data: {
+          referenceCode: generateReferenceCode(),
+          guestName: input.guestName,
+          guestPhone: input.guestPhone,
+          guestEmail: input.guestEmail,
+          partySize: input.partySize,
+          specialRequests: input.specialRequests,
+        },
+      })
+    } catch (error) {
+      if (error instanceof SlotConflictError) {
+        throw new AppError(
+          'SLOT_CONFLICT',
+          'This time slot was just booked by someone else. Please choose another time.',
+          409,
+        )
+      }
+
+      const isDuplicateReferenceCode =
+        error instanceof Error &&
+        'code' in error &&
+        (error as { code?: string }).code === 'P2002' &&
+        attempt < MAX_REFERENCE_CODE_ATTEMPTS
+
+      if (!isDuplicateReferenceCode) throw error
+      // Extremely unlikely collision — retry with a freshly generated code.
+    }
+  }
+
+  throw new AppError('RESERVATION_CREATE_FAILED', 'Could not create the reservation. Please try again.', 500)
 }
