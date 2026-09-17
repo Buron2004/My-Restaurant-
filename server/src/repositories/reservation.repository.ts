@@ -88,3 +88,17 @@ export async function createReservationTransactionally(params: {
     throw error
   }
 }
+export function findReservationByReferenceAndPhone(referenceCode: string, guestPhone: string) {
+  return prisma.reservation.findFirst({
+    where: { referenceCode, guestPhone },
+    include: { table: true },
+  })
+}
+
+export function cancelReservationById(id: string) {
+  return prisma.reservation.update({
+    where: { id },
+    data: { status: 'CANCELLED' },
+    include: { table: true },
+  })
+}

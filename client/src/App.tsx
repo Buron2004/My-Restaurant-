@@ -1,24 +1,13 @@
-import { Link, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import AdminMealsPage from './pages/AdminMealsPage'
 import AdminTablesPage from './pages/AdminTablesPage'
+import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
+import OrderPage from './pages/OrderPage'
+import ReservePage from './pages/ReservePage'
+import ManageReservationPage from './pages/ManageReservationPage'
 import './App.css'
-
-function HomePage() {
-  return (
-    <main>
-      <p className="eyebrow">Day 1 setup</p>
-      <h1>Restaurant Management</h1>
-      <p className="intro">
-        The client foundation is ready for the assessment features.
-      </p>
-      <Link className="link" to="/health">
-        Check API health
-      </Link>
-    </main>
-  )
-}
 
 function HealthPage() {
   return (
@@ -36,9 +25,12 @@ function HealthPage() {
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/order" element={<OrderPage />} />
       <Route path="/health" element={<HealthPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/reserve" element={<ReservePage />} />
+      <Route path="/manage-reservation" element={<ManageReservationPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/admin/meals" element={<AdminMealsPage />} />
         <Route path="/admin/tables" element={<AdminTablesPage />} />

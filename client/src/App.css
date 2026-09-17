@@ -1,20 +1,22 @@
+
 .admin-meals .field-label {
   display: grid;
   gap: 0.4rem;
-  color: #57534e;
+  color: #A7B5A9;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 .admin-meals .field-control {
   width: 100%;
   border: 1px solid #d6d3d1;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   background: #fff;
   padding: 0.7rem 0.8rem;
-  color: #292524;
+  color: #241c16;
   font: inherit;
   font-size: 0.875rem;
   letter-spacing: normal;
@@ -22,21 +24,21 @@
 }
 
 .admin-meals .field-control:focus {
-  border-color: #b45309;
-  outline: 2px solid #fcd34d;
+  border-color: #4B6B4F;
+  outline: 2px solid #E3A008;
   outline-offset: 1px;
 }
 
 .admin-meals .field-error { color: #b91c1c; font-size: 0.75rem; letter-spacing: normal; text-transform: none; }
-.admin-meals .button-primary, .admin-meals .button-secondary, .admin-meals .table-action, .admin-meals .icon-button { cursor: pointer; border-radius: 0.7rem; font: inherit; font-weight: 700; }
-.admin-meals .button-primary { border: 0; background: #9a3412; padding: 0.7rem 1rem; color: #fff; }
-.admin-meals .button-primary:hover { background: #7c2d12; }
+.admin-meals .button-primary, .admin-meals .button-secondary, .admin-meals .table-action, .admin-meals .icon-button { cursor: pointer; border-radius: 0.5rem; font: inherit; font-weight: 700; font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+.admin-meals .button-primary { border: 0; background: #1F2E22; padding: 0.7rem 1rem; color: #FBF6EC; }
+.admin-meals .button-primary:hover { background: #142018; }
 .admin-meals .button-primary:disabled, .admin-meals .button-secondary:disabled { cursor: not-allowed; opacity: 0.5; }
-.admin-meals .button-secondary { border: 1px solid #d6d3d1; background: #fff; padding: 0.6rem 0.85rem; color: #57534e; }
-.admin-meals .table-action { border: 1px solid #e7e5e4; background: #fff; padding: 0.45rem 0.65rem; color: #9a3412; font-size: 0.75rem; }
+.admin-meals .button-secondary { border: 1px solid #d6d3d1; background: #fff; padding: 0.6rem 0.85rem; color: #4B6B4F; }
+.admin-meals .table-action { border: 1px solid #e7e5e4; background: #fff; padding: 0.45rem 0.65rem; color: #1F2E22; font-size: 0.75rem; }
 .admin-meals .table-action-danger { color: #b91c1c; }
 .admin-meals .icon-button { border: 0; background: transparent; padding: 0.25rem 0.5rem; color: #78716c; font-size: 1.5rem; line-height: 1; }
-.admin-meals .status-pill { display: inline-flex; border-radius: 999px; padding: 0.35rem 0.6rem; font-size: 0.7rem; font-weight: 700; }
+.admin-meals .status-pill { display: inline-flex; border-radius: 999px; padding: 0.35rem 0.6rem; font-size: 0.7rem; font-weight: 700; font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
 .admin-meals .status-available { background: #dcfce7; color: #166534; }
 .admin-meals .status-out_of_stock { background: #fef3c7; color: #92400e; }
 .admin-meals .status-archived { background: #e7e5e4; color: #57534e; }
@@ -53,28 +55,28 @@
   min-height: 100vh;
   place-items: center;
   padding: 2rem 1.25rem;
-  background: #f7f1e8;
+  background: #FBF6EC;
 }
 
 .login-panel {
   width: min(100%, 28rem);
   border: 1px solid #e7e5e4;
-  border-radius: 1.25rem;
+  border-radius: 0.75rem;
   background: #fffdfa;
   padding: 2.25rem;
-  box-shadow: 0 1.5rem 4rem rgb(68 45 27 / 0.1);
+  box-shadow: 0 1.5rem 4rem rgb(31 46 34 / 0.12);
 }
 
 .login-heading h1 { margin: 0.4rem 0 0.75rem; font-size: 2.5rem; line-height: 1; }
-.login-heading p:last-child, .login-hint { color: #78716c; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 0.9rem; }
+.login-heading p:last-child, .login-hint { color: #78716c; font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 0.9rem; }
 .login-form { display: grid; gap: 1rem; margin-top: 2rem; }
-.login-field { display: grid; gap: 0.45rem; color: #57534e; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 0.8rem; font-weight: 700; }
-.login-field input { border: 1px solid #d6d3d1; border-radius: 0.7rem; padding: 0.8rem; color: #292524; font: inherit; font-weight: 400; }
-.login-field input:focus { border-color: #b45309; outline: 2px solid #fcd34d; outline-offset: 1px; }
+.login-field { display: grid; gap: 0.45rem; color: #4B6B4F; font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 0.8rem; font-weight: 700; }
+.login-field input { border: 1px solid #d6d3d1; border-radius: 0.5rem; padding: 0.8rem; color: #241c16; font: inherit; font-weight: 400; }
+.login-field input:focus { border-color: #4B6B4F; outline: 2px solid #E3A008; outline-offset: 1px; }
 .login-field span, .login-error { color: #b91c1c; font-size: 0.78rem; font-weight: 400; }
-.login-error { margin: 0; border-radius: 0.65rem; background: #fee2e2; padding: 0.75rem; }
-.login-submit { cursor: pointer; border: 0; border-radius: 0.7rem; background: #9a3412; padding: 0.8rem; color: white; font: inherit; font-weight: 700; }
-.login-submit:hover { background: #7c2d12; }
+.login-error { margin: 0; border-radius: 0.5rem; background: #fee2e2; padding: 0.75rem; }
+.login-submit { cursor: pointer; border: 0; border-radius: 0.5rem; background: #1F2E22; padding: 0.8rem; color: #FBF6EC; font: inherit; font-weight: 700; }
+.login-submit:hover { background: #142018; }
 .login-submit:disabled { cursor: wait; opacity: 0.6; }
 .login-hint { margin: 1.25rem 0 0; font-size: 0.78rem; }
 
@@ -85,8 +87,8 @@ main {
 }
 
 .eyebrow {
-  color: #a14f2f;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  color: #4B6B4F;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -94,5 +96,57 @@ main {
 }
 
 h1 { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.95; margin: 1rem 0; }
-.intro { color: #66584e; font-size: 1.2rem; max-width: 30rem; }
-.link { color: #a14f2f; font-family: ui-sans-serif, system-ui, sans-serif; font-weight: 700; }
+.intro { color: #57534e; font-size: 1.2rem; max-width: 30rem; }
+.link { color: #4B6B4F; font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; font-weight: 700; }
+
+/* Global versions so TableList/TableFormModal get the same styling
+   without needing to match the exact .admin-meals wrapper class */
+.field-label {
+  display: grid;
+  gap: 0.4rem;
+  color: #4B6B4F;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+.field-control {
+  width: 100%;
+  border: 1px solid #d6d3d1;
+  border-radius: 0.5rem;
+  background: #fff;
+  padding: 0.7rem 0.8rem;
+  color: #241c16;
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.field-control:focus {
+  border-color: #4B6B4F;
+  outline: 2px solid #E3A008;
+  outline-offset: 1px;
+}
+
+.field-error { color: #b91c1c; font-size: 0.75rem; }
+
+.button-primary, .button-secondary, .table-action, .icon-button {
+  cursor: pointer;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-weight: 700;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+.button-primary { border: 0; background: #1F2E22; padding: 0.7rem 1rem; color: #FBF6EC; }
+.button-primary:hover { background: #142018; }
+.button-primary:disabled, .button-secondary:disabled { cursor: not-allowed; opacity: 0.5; }
+.button-secondary { border: 1px solid #d6d3d1; background: #fff; padding: 0.6rem 0.85rem; color: #4B6B4F; }
+.table-action { border: 1px solid #e7e5e4; background: #fff; padding: 0.45rem 0.65rem; color: #1F2E22; font-size: 0.75rem; }
+.table-action-danger { color: #b91c1c; }
+.icon-button { border: 0; background: transparent; padding: 0.25rem 0.5rem; color: #78716c; font-size: 1.5rem; line-height: 1; }
+
+.status-pill { display: inline-flex; border-radius: 999px; padding: 0.35rem 0.6rem; font-size: 0.7rem; font-weight: 700; font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+.status-available { background: #dcfce7; color: #166534; }
+.status-out_of_stock { background: #fef3c7; color: #92400e; }
+.status-archived { background: #e7e5e4; color: #57534e; }

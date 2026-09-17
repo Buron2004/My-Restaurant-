@@ -7,6 +7,11 @@ import {
 import type { AvailabilityQuery } from '../schemas/reservation.schema.js'
 import { createReservationTransactionally, SlotConflictError } from '../repositories/reservation.repository.js'
 import type { CreateReservationInput } from '../schemas/reservation.schema.js'
+import {
+  cancelReservationById,
+  findReservationByReferenceAndPhone,
+} from '../repositories/reservation.repository.js'
+import type { LookupReservationInput } from '../schemas/reservation.schema.js'
 
 const OPENING_MINUTES = 11 * 60 // 11:00
 const CLOSING_MINUTES = 22 * 60 // 22:00
@@ -285,4 +290,42 @@ export async function createReservation(input: CreateReservationInput) {
   }
 
   throw new AppError('RESERVATION_CREATE_FAILED', 'Could not create the reservation. Please try again.', 500)
+}
+
+const CANCELLABLE_STATUSES = ['PENDING', 'CONFIRMED']
+
+// Deliberately returns the SAME generic error whether the reference code or the
+// phone number is wrong — this prevents an attacker from brute-forcing valid
+// reference codes by observing which error message comes back.
+async function findReservationOrThrow(input: LookupReservationInput) {
+  const normalizedCode = input.referenceCode.trim().toUpperCase()
+  const reservation = await findReservationByReferenceAndPhone(normalizedCode, input.guestPhone.trim())
+
+  if (!reservation) {
+    throw new AppError(
+      'RESERVATION_NOT_FOUND',
+      'No reservation was found matching that reference and phone number.',
+      404,
+    )
+  }
+
+  return reservation
+}
+
+export async function lookupReservation(input: LookupReservationInput) {
+  return findReservationOrThrow(input)
+}
+
+export async function cancelReservationByLookup(input: LookupReservationInput) {
+  const reservation = await findReservationOrThrow(input)
+
+  if (!CANCELLABLE_STATUSES.includes(reservation.status)) {
+    throw new AppError(
+      'RESERVATION_NOT_CANCELLABLE',
+      'This reservation can no longer be cancelled online. Please contact the restaurant directly.',
+      409,
+    )
+  }
+
+  return cancelReservationById(reservation.id)
 }

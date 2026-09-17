@@ -46,3 +46,10 @@ export const createReservationSchema = z.object({
 })
 
 export type CreateReservationInput = z.infer<typeof createReservationSchema>
+
+export const lookupReservationSchema = z.object({
+  referenceCode: z.string().trim().min(1, 'Reference code is required.'),
+  guestPhone: z.string().trim().min(1, 'Phone number is required.'),
+})
+
+export type LookupReservationInput = z.infer<typeof lookupReservationSchema>

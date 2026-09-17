@@ -1,3 +1,4 @@
+
 import 'dotenv/config'
 import bcrypt from 'bcryptjs'
 import { PrismaClient, MealStatus, TableLocation, UserRole } from '@prisma/client'
@@ -14,26 +15,26 @@ const cuisines = [
 ]
 
 const meals = [
-  { name: 'Truffle Tagliatelle', cuisine: 'Italian', description: 'Silky pasta with wild mushrooms, parmesan, and black truffle.', price: 18500, prepTimeMinutes: 18, dietaryTags: ['vegetarian'], isFeatured: true },
-  { name: 'Margherita Pizza', cuisine: 'Italian', description: 'San Marzano tomato, mozzarella, basil, and extra virgin olive oil.', price: 12000, prepTimeMinutes: 15, dietaryTags: ['vegetarian'], isFeatured: false },
-  { name: 'Seafood Risotto', cuisine: 'Italian', description: 'Carnaroli rice with prawns, calamari, mussels, and saffron.', price: 22000, prepTimeMinutes: 25, dietaryTags: [], isFeatured: true },
-  { name: 'Salmon Teriyaki', cuisine: 'Japanese', description: 'Glazed salmon with steamed rice, greens, and sesame.', price: 19500, prepTimeMinutes: 20, dietaryTags: ['high-protein'], isFeatured: true },
-  { name: 'Chicken Katsu', cuisine: 'Japanese', description: 'Crisp panko chicken with cabbage slaw and tonkatsu sauce.', price: 16000, prepTimeMinutes: 22, dietaryTags: [], isFeatured: false },
-  { name: 'Miso Ramen', cuisine: 'Japanese', description: 'Rich miso broth, noodles, roasted corn, egg, and spring onion.', price: 14500, prepTimeMinutes: 18, dietaryTags: [], isFeatured: false },
-  { name: 'Baja Fish Tacos', cuisine: 'Mexican', description: 'Crisp fish, lime crema, cabbage, pico de gallo, and corn tortillas.', price: 13500, prepTimeMinutes: 16, dietaryTags: [], isFeatured: true },
-  { name: 'Chicken Tinga Bowl', cuisine: 'Mexican', description: 'Smoky shredded chicken, rice, black beans, avocado, and salsa.', price: 15000, prepTimeMinutes: 20, dietaryTags: ['high-protein'], isFeatured: false },
-  { name: 'Guacamole and Chips', cuisine: 'Mexican', description: 'Fresh avocado, lime, coriander, and toasted corn chips.', price: 7500, prepTimeMinutes: 8, dietaryTags: ['vegan', 'gluten-free'], isFeatured: false },
-  { name: 'Lamb Shawarma Plate', cuisine: 'Mediterranean', description: 'Spiced lamb, hummus, tabbouleh, pickles, and warm flatbread.', price: 17500, prepTimeMinutes: 20, dietaryTags: [], isFeatured: true },
-  { name: 'Greek Village Salad', cuisine: 'Mediterranean', description: 'Tomato, cucumber, olives, feta, oregano, and olive oil.', price: 9500, prepTimeMinutes: 10, dietaryTags: ['vegetarian', 'gluten-free'], isFeatured: false },
-  { name: 'Grilled Halloumi', cuisine: 'Mediterranean', description: 'Charred halloumi with roasted vegetables and lemon dressing.', price: 12500, prepTimeMinutes: 14, dietaryTags: ['vegetarian'], isFeatured: false },
-  { name: 'Butter Chicken', cuisine: 'Indian', description: 'Tandoori chicken in a rich tomato, butter, and spice sauce.', price: 16500, prepTimeMinutes: 22, dietaryTags: ['high-protein'], isFeatured: true },
-  { name: 'Paneer Tikka Masala', cuisine: 'Indian', description: 'Charred paneer in a creamy spiced tomato gravy.', price: 14500, prepTimeMinutes: 20, dietaryTags: ['vegetarian'], isFeatured: false },
-  { name: 'Lamb Biryani', cuisine: 'Indian', description: 'Fragrant basmati rice layered with tender lamb and saffron.', price: 18500, prepTimeMinutes: 25, dietaryTags: [], isFeatured: true },
-  { name: 'Herb-Crusted Salmon', cuisine: 'Modern European', description: 'Roasted salmon with crushed potatoes and green herb sauce.', price: 23000, prepTimeMinutes: 24, dietaryTags: ['high-protein', 'gluten-free'], isFeatured: true },
-  { name: 'Wild Mushroom Tart', cuisine: 'Modern European', description: 'Buttery pastry, roasted mushrooms, goat cheese, and thyme.', price: 15500, prepTimeMinutes: 20, dietaryTags: ['vegetarian'], isFeatured: false },
-  { name: 'Beef Tenderloin', cuisine: 'Modern European', description: 'Grilled tenderloin with pepper jus, greens, and pomme puree.', price: 28000, prepTimeMinutes: 28, dietaryTags: ['high-protein', 'gluten-free'], isFeatured: true },
-  { name: 'Lemon Panna Cotta', cuisine: 'Italian', description: 'Silky vanilla panna cotta with lemon curd and berries.', price: 8000, prepTimeMinutes: 6, dietaryTags: ['vegetarian', 'gluten-free'], isFeatured: false },
-  { name: 'Dark Chocolate Torte', cuisine: 'Modern European', description: 'Dense dark chocolate torte with whipped creme fraiche.', price: 8500, prepTimeMinutes: 8, dietaryTags: ['vegetarian'], isFeatured: false },
+  { name: 'Truffle Tagliatelle', cuisine: 'Italian', description: 'Silky pasta with wild mushrooms, parmesan, and black truffle.', price: 18500, prepTimeMinutes: 18, dietaryTags: ['vegetarian'], isFeatured: true, imageUrl: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141' },
+  { name: 'Margherita Pizza', cuisine: 'Italian', description: 'San Marzano tomato, mozzarella, basil, and extra virgin olive oil.', price: 12000, prepTimeMinutes: 15, dietaryTags: ['vegetarian'], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002' },
+  { name: 'Seafood Risotto', cuisine: 'Italian', description: 'Carnaroli rice with prawns, calamari, mussels, and saffron.', price: 22000, prepTimeMinutes: 25, dietaryTags: [], isFeatured: true, imageUrl: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371' },
+  { name: 'Salmon Teriyaki', cuisine: 'Japanese', description: 'Glazed salmon with steamed rice, greens, and sesame.', price: 19500, prepTimeMinutes: 20, dietaryTags: ['high-protein'], isFeatured: true, imageUrl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288' },
+  { name: 'Chicken Katsu', cuisine: 'Japanese', description: 'Crisp panko chicken with cabbage slaw and tonkatsu sauce.', price: 16000, prepTimeMinutes: 22, dietaryTags: [], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1562967914-608f82629710' },
+  { name: 'Miso Ramen', cuisine: 'Japanese', description: 'Rich miso broth, noodles, roasted corn, egg, and spring onion.', price: 14500, prepTimeMinutes: 18, dietaryTags: [], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1591814468924-caf88d1232e1' },
+  { name: 'Baja Fish Tacos', cuisine: 'Mexican', description: 'Crisp fish, lime crema, cabbage, pico de gallo, and corn tortillas.', price: 13500, prepTimeMinutes: 16, dietaryTags: [], isFeatured: true, imageUrl: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b' },
+  { name: 'Chicken Tinga Bowl', cuisine: 'Mexican', description: 'Smoky shredded chicken, rice, black beans, avocado, and salsa.', price: 15000, prepTimeMinutes: 20, dietaryTags: ['high-protein'], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6' },
+  { name: 'Guacamole and Chips', cuisine: 'Mexican', description: 'Fresh avocado, lime, coriander, and toasted corn chips.', price: 7500, prepTimeMinutes: 8, dietaryTags: ['vegan', 'gluten-free'], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0' },
+  { name: 'Lamb Shawarma Plate', cuisine: 'Mediterranean', description: 'Spiced lamb, hummus, tabbouleh, pickles, and warm flatbread.', price: 17500, prepTimeMinutes: 20, dietaryTags: [], isFeatured: true, imageUrl: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783' },
+  { name: 'Greek Village Salad', cuisine: 'Mediterranean', description: 'Tomato, cucumber, olives, feta, oregano, and olive oil.', price: 9500, prepTimeMinutes: 10, dietaryTags: ['vegetarian', 'gluten-free'], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1540420773420-3366772f4999' },
+  { name: 'Grilled Halloumi', cuisine: 'Mediterranean', description: 'Charred halloumi with roasted vegetables and lemon dressing.', price: 12500, prepTimeMinutes: 14, dietaryTags: ['vegetarian'], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1625944230945-1b7dd3b949ab' },
+  { name: 'Butter Chicken', cuisine: 'Indian', description: 'Tandoori chicken in a rich tomato, butter, and spice sauce.', price: 16500, prepTimeMinutes: 22, dietaryTags: ['high-protein'], isFeatured: true, imageUrl: 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db' },
+  { name: 'Paneer Tikka Masala', cuisine: 'Indian', description: 'Charred paneer in a creamy spiced tomato gravy.', price: 14500, prepTimeMinutes: 20, dietaryTags: ['vegetarian'], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7' },
+  { name: 'Lamb Biryani', cuisine: 'Indian', description: 'Fragrant basmati rice layered with tender lamb and saffron.', price: 18500, prepTimeMinutes: 25, dietaryTags: [], isFeatured: true, imageUrl: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8' },
+  { name: 'Herb-Crusted Salmon', cuisine: 'Modern European', description: 'Roasted salmon with crushed potatoes and green herb sauce.', price: 23000, prepTimeMinutes: 24, dietaryTags: ['high-protein', 'gluten-free'], isFeatured: true, imageUrl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288' },
+  { name: 'Wild Mushroom Tart', cuisine: 'Modern European', description: 'Buttery pastry, roasted mushrooms, goat cheese, and thyme.', price: 15500, prepTimeMinutes: 20, dietaryTags: ['vegetarian'], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371' },
+  { name: 'Beef Tenderloin', cuisine: 'Modern European', description: 'Grilled tenderloin with pepper jus, greens, and pomme puree.', price: 28000, prepTimeMinutes: 28, dietaryTags: ['high-protein', 'gluten-free'], isFeatured: true, imageUrl: 'https://images.unsplash.com/photo-1600891964599-f61ba0e24092' },
+  { name: 'Lemon Panna Cotta', cuisine: 'Italian', description: 'Silky vanilla panna cotta with lemon curd and berries.', price: 8000, prepTimeMinutes: 6, dietaryTags: ['vegetarian', 'gluten-free'], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1488477181946-6428a0291777' },
+  { name: 'Dark Chocolate Torte', cuisine: 'Modern European', description: 'Dense dark chocolate torte with whipped creme fraiche.', price: 8500, prepTimeMinutes: 8, dietaryTags: ['vegetarian'], isFeatured: false, imageUrl: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c' },
 ]
 
 const tables = [
@@ -80,7 +81,7 @@ async function main() {
     const mealData = {
       description: meal.description,
       price: meal.price,
-      imageUrl: null,
+      imageUrl: meal.imageUrl,
       prepTimeMinutes: meal.prepTimeMinutes,
       status: MealStatus.AVAILABLE,
       dietaryTags: meal.dietaryTags,
