@@ -53,3 +53,18 @@ export const lookupReservationSchema = z.object({
 })
 
 export type LookupReservationInput = z.infer<typeof lookupReservationSchema>
+
+export const reservationListQuerySchema = z.object({
+  date: dateStringSchema,
+})
+
+export const updateReservationStatusSchema = z.object({
+  status: z.enum(['PENDING', 'CONFIRMED', 'SEATED', 'COMPLETED', 'CANCELLED', 'NO_SHOW']),
+})
+
+export type ReservationListQuery = z.infer<typeof reservationListQuerySchema>
+export type UpdateReservationStatusInput = z.infer<typeof updateReservationStatusSchema>
+
+export const reservationIdSchema = z.object({
+  id: z.string().min(1, 'Reservation id is required.'),
+})

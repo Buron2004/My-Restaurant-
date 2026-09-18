@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { clearAuthToken } from '../utils/auth'
 
 const links = [
+  { to: '/staff/reservations', label: 'Reservations' },
   { to: '/admin/meals', label: 'Meals' },
   { to: '/admin/tables', label: 'Tables' },
 ]

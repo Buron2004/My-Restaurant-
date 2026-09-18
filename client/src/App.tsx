@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage'
 import OrderPage from './pages/OrderPage'
 import ReservePage from './pages/ReservePage'
 import ManageReservationPage from './pages/ManageReservationPage'
+import StaffReservationsPage from './pages/StaffReservationsPage'
 import './App.css'
 
 function HealthPage() {
@@ -34,6 +35,7 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/admin/meals" element={<AdminMealsPage />} />
         <Route path="/admin/tables" element={<AdminTablesPage />} />
+        <Route path="/staff/reservations" element={<StaffReservationsPage />} />
       </Route>
     </Routes>
   )

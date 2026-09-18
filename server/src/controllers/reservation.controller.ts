@@ -6,6 +6,9 @@ import { createReservationSchema } from '../schemas/reservation.schema.js'
 import { createReservation } from '../services/reservation.service.js'
 import { lookupReservationSchema } from '../schemas/reservation.schema.js'
 import { cancelReservationByLookup, lookupReservation } from '../services/reservation.service.js'
+import { reservationListQuerySchema, updateReservationStatusSchema, reservationIdSchema } from '../schemas/reservation.schema.js'
+import { getReservationsForDate, transitionReservationStatus } from '../services/reservation.service.js'
+
 
 export async function lookupReservationController(request: Request, response: Response) {
   const input = lookupReservationSchema.parse({
@@ -32,4 +35,18 @@ export async function getAvailabilityController(request: Request, response: Resp
   const query = availabilityQuerySchema.parse(request.query)
   const result = await getAvailability(query)
   return sendSuccess(response, result)
+}
+
+
+export async function listReservationsController(request: Request, response: Response) {
+  const query = reservationListQuerySchema.parse(request.query)
+  const result = await getReservationsForDate(query)
+  return sendSuccess(response, result)
+}
+
+export async function updateReservationStatusController(request: Request, response: Response) {
+  const { id } = reservationIdSchema.parse(request.params)
+  const input = updateReservationStatusSchema.parse(request.body)
+  const reservation = await transitionReservationStatus(id, input)
+  return sendSuccess(response, reservation)
 }

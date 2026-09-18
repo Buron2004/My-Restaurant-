@@ -1,4 +1,4 @@
-import type { AvailabilityResponse, CreateReservationInput, LookupReservationInput, ReservationResponse } from '../types/reservation'
+import type { AvailabilityResponse, CreateReservationInput, LookupReservationInput, ReservationResponse, DailyReservationsResponse } from '../types/reservation'
 
 const apiBaseUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api'
 
@@ -42,4 +42,29 @@ export async function cancelReservation(input: LookupReservationInput) {
     method: 'POST',
     body: JSON.stringify(input),
   })
+}
+
+export async function fetchReservationsForDate(date: string) {
+  const token = localStorage.getItem('authToken')
+  const response = await fetch(`${apiBaseUrl}/reservations?date=${date}`, {
+    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  })
+  const body = await response.json()
+  if (!response.ok) throw new Error('error' in body ? body.error.message : 'Request failed')
+  return body as DailyReservationsResponse
+}
+
+export async function updateReservationStatus(id: string, status: string) {
+  const token = localStorage.getItem('authToken')
+  const response = await fetch(`${apiBaseUrl}/reservations/${id}/status`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify({ status }),
+  })
+  const body = await response.json()
+  if (!response.ok) throw new Error('error' in body ? body.error.message : 'Request failed')
+  return body as ReservationResponse
 }

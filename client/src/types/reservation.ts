@@ -55,3 +55,25 @@ export interface LookupReservationInput {
   referenceCode: string
   guestPhone: string
 }
+
+export type ReservationStatus = 'PENDING' | 'CONFIRMED' | 'SEATED' | 'COMPLETED' | 'CANCELLED' | 'NO_SHOW'
+
+export interface ReservationSummary {
+  total: number
+  totalCovers: number
+  pending: number
+  confirmed: number
+  seated: number
+  completed: number
+  cancelled: number
+  noShow: number
+}
+
+export interface DailyReservationsResponse {
+  success: true
+  data: {
+    date: string
+    reservations: Reservation[]
+    summary: ReservationSummary
+  }
+}

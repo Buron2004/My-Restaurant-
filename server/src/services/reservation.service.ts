@@ -12,6 +12,12 @@ import {
   findReservationByReferenceAndPhone,
 } from '../repositories/reservation.repository.js'
 import type { LookupReservationInput } from '../schemas/reservation.schema.js'
+import {
+  findReservationById,
+  listReservationsByDate,
+  updateReservationStatus,
+} from '../repositories/reservation.repository.js'
+import type { ReservationListQuery, UpdateReservationStatusInput } from '../schemas/reservation.schema.js'
 
 const OPENING_MINUTES = 11 * 60 // 11:00
 const CLOSING_MINUTES = 22 * 60 // 22:00
@@ -328,4 +334,58 @@ export async function cancelReservationByLookup(input: LookupReservationInput) {
   }
 
   return cancelReservationById(reservation.id)
+}
+
+const ALLOWED_TRANSITIONS: Record<string, string[]> = {
+  PENDING: ['CONFIRMED', 'CANCELLED'],
+  CONFIRMED: ['SEATED', 'CANCELLED', 'NO_SHOW'],
+  SEATED: ['COMPLETED'],
+  COMPLETED: [],
+  CANCELLED: [],
+  NO_SHOW: [],
+}
+
+export async function getReservationsForDate(query: ReservationListQuery) {
+  const date = parseDateOnly(query.date)
+  const reservations = await listReservationsByDate(date)
+
+  const summary = {
+    total: reservations.length,
+    totalCovers: reservations.reduce((sum, reservation) => sum + reservation.partySize, 0),
+    pending: 0,
+    confirmed: 0,
+    seated: 0,
+    completed: 0,
+    cancelled: 0,
+    noShow: 0,
+  }
+
+  for (const reservation of reservations) {
+    if (reservation.status === 'PENDING') summary.pending++
+    else if (reservation.status === 'CONFIRMED') summary.confirmed++
+    else if (reservation.status === 'SEATED') summary.seated++
+    else if (reservation.status === 'COMPLETED') summary.completed++
+    else if (reservation.status === 'CANCELLED') summary.cancelled++
+    else if (reservation.status === 'NO_SHOW') summary.noShow++
+  }
+
+  return { date: query.date, reservations, summary }
+}
+
+export async function transitionReservationStatus(id: string, input: UpdateReservationStatusInput) {
+  const reservation = await findReservationById(id)
+  if (!reservation) {
+    throw new AppError('RESERVATION_NOT_FOUND', 'Reservation not found.', 404)
+  }
+
+  const allowedNext = ALLOWED_TRANSITIONS[reservation.status] ?? []
+  if (!allowedNext.includes(input.status)) {
+    throw new AppError(
+      'INVALID_STATUS_TRANSITION',
+      `Cannot move a reservation from ${reservation.status} to ${input.status}.`,
+      409,
+    )
+  }
+
+  return updateReservationStatus(id, input.status as never)
 }

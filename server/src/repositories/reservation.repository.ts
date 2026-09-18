@@ -102,3 +102,19 @@ export function cancelReservationById(id: string) {
     include: { table: true },
   })
 }
+
+export function listReservationsByDate(date: Date) {
+  return prisma.reservation.findMany({
+    where: { reservationDate: date },
+    orderBy: { startTime: 'asc' },
+    include: { table: true },
+  })
+}
+
+export function findReservationById(id: string) {
+  return prisma.reservation.findUnique({ where: { id }, include: { table: true } })
+}
+
+export function updateReservationStatus(id: string, status: ReservationStatus) {
+  return prisma.reservation.update({ where: { id }, data: { status }, include: { table: true } })
+}
