@@ -8,6 +8,7 @@ import OrderPage from './pages/OrderPage'
 import ReservePage from './pages/ReservePage'
 import ManageReservationPage from './pages/ManageReservationPage'
 import StaffReservationsPage from './pages/StaffReservationsPage'
+import MenuPage from './pages/MenuPage'
 import './App.css'
 
 function HealthPage() {
@@ -32,6 +33,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/reserve" element={<ReservePage />} />
       <Route path="/manage-reservation" element={<ManageReservationPage />} />
+      <Route path="/menu" element={<MenuPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/admin/meals" element={<AdminMealsPage />} />
         <Route path="/admin/tables" element={<AdminTablesPage />} />

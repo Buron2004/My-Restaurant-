@@ -65,7 +65,7 @@ export default function LandingPage() {
                         </span>
 
                         <div className="hidden sm:flex items-center gap-8 text-sm">
-                            <a href="#menu" className="hover:opacity-80">Menu</a>
+                            <Link to="/menu" className="hover:opacity-80">Menu</Link>
                             <Link to="/reserve" className="hover:opacity-80">Reservations</Link>
                             <Link to="/order" className="hover:opacity-80">Order online</Link>
                             <Link to="/login" className="hover:opacity-80">Staff login</Link>

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { fetchReservationsForDate, updateReservationStatus } from '../api/reservations'
 import { AdminNav } from '../components/AdminNav'
 import type { ReservationStatus } from '../types/reservation'
+import { StaffReservationsSkeleton } from '../components/StaffReservationsSkeleton'
 
 const statusLabels: Record<ReservationStatus, string> = {
   PENDING: 'Pending',
@@ -123,7 +124,7 @@ export default function StaffReservationsPage() {
           </section>
         )}
 
-        {reservationsQuery.isLoading && <div className="state-panel">Loading reservations…</div>}
+        {reservationsQuery.isLoading && <StaffReservationsSkeleton />}
         {reservationsQuery.isError && (
           <div className="state-panel state-error">
             Could not load reservations. {(reservationsQuery.error as Error).message}
