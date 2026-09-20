@@ -4,6 +4,7 @@ import { fetchReservationsForDate, updateReservationStatus } from '../api/reserv
 import { AdminNav } from '../components/AdminNav'
 import type { ReservationStatus } from '../types/reservation'
 import { StaffReservationsSkeleton } from '../components/StaffReservationsSkeleton'
+import { ErrorState } from '../components/ErrorState'
 
 const statusLabels: Record<ReservationStatus, string> = {
   PENDING: 'Pending',
@@ -126,9 +127,10 @@ export default function StaffReservationsPage() {
 
         {reservationsQuery.isLoading && <StaffReservationsSkeleton />}
         {reservationsQuery.isError && (
-          <div className="state-panel state-error">
-            Could not load reservations. {(reservationsQuery.error as Error).message}
-          </div>
+          <ErrorState
+            message={`Could not load reservations. ${(reservationsQuery.error as Error).message}`}
+            onRetry={() => reservationsQuery.refetch()}
+          />
         )}
         {data && filteredReservations.length === 0 && !reservationsQuery.isLoading && (
           <div className="state-panel">

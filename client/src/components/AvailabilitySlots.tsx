@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { fetchAvailability } from '../api/reservations'
+import { ErrorState } from './ErrorState'
 
 interface Props {
   date: string
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export function AvailabilitySlots({ date, partySize, selectedTime, onSelectTime, onBack }: Props) {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['availability', date, partySize],
     queryFn: () => fetchAvailability(date, partySize),
   })
@@ -37,9 +38,10 @@ export function AvailabilitySlots({ date, partySize, selectedTime, onSelectTime,
       {isLoading && <p className="text-stone-500 py-6 text-center">Checking availability…</p>}
 
       {isError && (
-        <p className="text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-          {error instanceof Error ? error.message : 'Could not load availability. Please try again.'}
-        </p>
+        <ErrorState
+          message={error instanceof Error ? error.message : 'Could not load availability.'}
+          onRetry={() => refetch()}
+        />
       )}
 
       {data && data.data.slots.every((slot) => !slot.available) && (
@@ -56,13 +58,12 @@ export function AvailabilitySlots({ date, partySize, selectedTime, onSelectTime,
               type="button"
               disabled={!slot.available}
               onClick={() => onSelectTime(slot.time)}
-              className={`rounded-lg px-3 py-2 text-sm font-medium border transition-colors ${
-                !slot.available
-                  ? 'bg-stone-100 text-stone-400 border-stone-200 cursor-not-allowed'
-                  : selectedTime === slot.time
-                    ? 'bg-[#1F2E22] text-[#FBF6EC] border-[#1F2E22]'
-                    : 'bg-white text-stone-800 border-stone-300 hover:border-[#4B6B4F]'
-              }`}
+              className={`rounded-lg px-3 py-2 text-sm font-medium border transition-colors ${!slot.available
+                ? 'bg-stone-100 text-stone-400 border-stone-200 cursor-not-allowed'
+                : selectedTime === slot.time
+                  ? 'bg-[#1F2E22] text-[#FBF6EC] border-[#1F2E22]'
+                  : 'bg-white text-stone-800 border-stone-300 hover:border-[#4B6B4F]'
+                }`}
             >
               {slot.time}
             </button>

@@ -6,6 +6,7 @@ import { CuisineFilterTabs } from '../components/CuisineFilterTabs'
 import { MealCard } from '../components/MealCard'
 import { MealDetailModal } from '../components/MealDetailModal'
 import type { Meal } from '../types/meal'
+import { ErrorState } from '../components/ErrorState'
 
 const FOREST = '#1F2E22'
 const PARCHMENT = '#FBF6EC'
@@ -71,7 +72,9 @@ export default function MenuPage() {
           </div>
         )}
         {cuisinesQuery.isError && (
-          <p className="text-red-800 mb-8">Could not load menu categories right now.</p>
+          <div className="mb-8">
+            <ErrorState message="Could not load menu categories right now." onRetry={() => cuisinesQuery.refetch()} />
+          </div>
         )}
         {cuisinesQuery.data && (
           <div className="mb-8">
@@ -84,9 +87,7 @@ export default function MenuPage() {
         )}
 
         {mealsQuery.isError && (
-          <p className="text-red-800 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-            Could not load the menu right now. Please try again shortly.
-          </p>
+          <ErrorState message="Could not load the menu right now." onRetry={() => mealsQuery.refetch()} />
         )}
 
         {mealsQuery.isLoading && (
