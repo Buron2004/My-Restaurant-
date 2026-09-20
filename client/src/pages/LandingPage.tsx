@@ -88,7 +88,7 @@ export default function LandingPage() {
                             <Link to="/order" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Order online</Link>
                             <Link to="/login" onClick={() => setMobileNavOpen(false)} className="py-2">Staff login</Link>
                             <Link to="/manage-reservation" className="hover:opacity-80">
-                                 Manage booking
+                                Manage booking
                             </Link>
                         </div>
                     )}
@@ -96,7 +96,7 @@ export default function LandingPage() {
 
                 <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center pb-0">
                     <div className="py-14 md:py-24">
-                        <h1 style={display} className="text-4xl sm:text-5xl md:text-6xl leading-[1.05] font-light">
+                        <h1 style={display} className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl leading-[1.05] font-light">
                             A table, a fire,
                             <br />
                             something worth
@@ -211,15 +211,15 @@ export default function LandingPage() {
 
             {/* Reservation CTA split */}
             <section style={{ background: FOREST }} className="text-white">
-                <div className="max-w-6xl mx-auto grid md:grid-cols-2">
-                    <div className="hidden md:block min-h-[360px]">
+                <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+                    <div className="hidden md:block aspect-[4/3]">
                         {meals[3]?.imageUrl ? (
                             <img src={meals[3].imageUrl} alt="" className="w-full h-full object-cover" />
                         ) : (
                             <div className="w-full h-full" style={{ background: HERB }} />
                         )}
                     </div>
-                    <div className="px-6 py-16 flex flex-col justify-center">
+                    <div className="py-16 flex flex-col justify-center">
                         <h2 style={display} className="text-4xl leading-tight">
                             Ready when you are.
                         </h2>
