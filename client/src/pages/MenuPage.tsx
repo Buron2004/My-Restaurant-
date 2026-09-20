@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { fetchCuisines, fetchMeals } from '../api/meals'
 import { CuisineFilterTabs } from '../components/CuisineFilterTabs'
 import { MealCard } from '../components/MealCard'
+import { MealDetailModal } from '../components/MealDetailModal'
+import type { Meal } from '../types/meal'
 
 const FOREST = '#1F2E22'
 const PARCHMENT = '#FBF6EC'
@@ -26,7 +28,7 @@ function MealCardSkeleton() {
 
 export default function MenuPage() {
   const [selectedCuisineId, setSelectedCuisineId] = useState<string | null>(null)
-
+  const [selectedMeal, setSelectedMeal] = useState<Meal | null>(null)
   const cuisinesQuery = useQuery({ queryKey: ['menu-cuisines'], queryFn: fetchCuisines })
 
   const mealsQuery = useQuery({
@@ -104,10 +106,11 @@ export default function MenuPage() {
         {!mealsQuery.isLoading && visibleMeals.length > 0 && (
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {visibleMeals.map((meal) => (
-              <MealCard key={meal.id} meal={meal} />
+              <MealCard key={meal.id} meal={meal} onSelect={setSelectedMeal} />
             ))}
           </div>
         )}
+        {selectedMeal && <MealDetailModal meal={selectedMeal} onClose={() => setSelectedMeal(null)} />}
       </div>
     </div>
   )
