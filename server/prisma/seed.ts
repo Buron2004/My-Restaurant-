@@ -49,7 +49,8 @@ const tables = [
 ]
 
 async function main() {
-  const passwordHash = await bcrypt.hash('ChangeMe123!', 12)
+  const seedPassword = process.env.SEED_ADMIN_PASSWORD ?? 'ChangeMe123!'
+  const passwordHash = await bcrypt.hash(seedPassword, 12)
 
   await prisma.user.upsert({
     where: { email: 'admin@restaurant.test' },

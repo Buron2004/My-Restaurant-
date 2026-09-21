@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { cancelReservation, lookupReservation } from '../api/reservations'
 import type { Reservation } from '../types/reservation'
+import { BackButton } from '../components/BackButton'
 
 const FOREST = '#1F2E22'
 const PARCHMENT = '#FBF6EC'
@@ -63,9 +64,7 @@ export default function ManageReservationPage() {
     <div style={{ background: PARCHMENT, minHeight: '100vh' }} className="py-12 px-4">
       <div className="max-w-lg mx-auto space-y-6">
         <div className="text-center">
-          <Link to="/" className="text-sm font-semibold" style={{ color: HERB }}>
-            ← Back to home
-          </Link>
+          <BackButton to="/" />
           <p className="text-sm font-semibold uppercase tracking-wide mt-4" style={{ color: HERB }}>
             Manage reservation
           </p>

@@ -23,7 +23,7 @@ export function ReservationDateForm({ defaultValues, onSubmit }: Props) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ReservationDateFormValues>({
+  } = useForm<z.input<typeof schema>, undefined, z.output<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? { date: today, partySize: 2 },
   })

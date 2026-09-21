@@ -6,6 +6,7 @@ const links = [
   { to: '/staff/reservations', label: 'Reservations' },
   { to: '/admin/meals', label: 'Meals' },
   { to: '/admin/tables', label: 'Tables' },
+  { to: '/', label: 'View public site' },
 ]
 
 export function AdminNav() {

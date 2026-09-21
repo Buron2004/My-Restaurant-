@@ -4,6 +4,7 @@ import { GuestDetailsForm } from '../components/GuestDetailsForm'
 import { ReservationConfirmation } from '../components/ReservationConfirmation'
 import { ReservationDateForm, type ReservationDateFormValues } from '../components/ReservationDateForm'
 import type { Reservation } from '../types/reservation'
+import { BackButton } from '../components/BackButton'
 
 type Step =
   | { name: 'date' }
@@ -15,8 +16,9 @@ export default function ReservePage() {
   const [step, setStep] = useState<Step>({ name: 'date' })
 
   return (
-        <div className="min-h-screen bg-[#FBF6EC] py-12 px-4">
+    <div className="min-h-screen bg-[#FBF6EC] py-12 px-4">
       <div className="max-w-lg mx-auto space-y-6">
+        <BackButton to="/" />
         <div className="text-center">
           <p className="text-sm font-semibold text-red-900 tracking-wide uppercase">Reservations</p>
           <h1 className="text-4xl font-bold mt-1">Book a table</h1>

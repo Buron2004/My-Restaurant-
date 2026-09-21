@@ -7,6 +7,7 @@ import { MealCard } from '../components/MealCard'
 import { MealDetailModal } from '../components/MealDetailModal'
 import type { Meal } from '../types/meal'
 import { ErrorState } from '../components/ErrorState'
+import { BackButton } from '../components/BackButton'
 
 const FOREST = '#1F2E22'
 const PARCHMENT = '#FBF6EC'
@@ -57,8 +58,11 @@ export default function MenuPage() {
           </Link>
         </div>
       </header>
-
+      
       <div className="max-w-6xl mx-auto px-6 py-12">
+        <div className="mb-6">
+          <BackButton to="/" />
+        </div>
         <p className="text-sm font-semibold uppercase tracking-wide" style={{ color: HERB }}>Menu</p>
         <h1 style={{ fontFamily: "'Fraunces', serif", color: CHARCOAL }} className="text-4xl font-bold mt-1 mb-8">
           Our full menu
