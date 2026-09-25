@@ -2,11 +2,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { cancelReservation, lookupReservation } from '../api/reservations'
 import type { Reservation } from '../types/reservation'
 import { BackButton } from '../components/BackButton'
+import toast from 'react-hot-toast'
 
 const FOREST = '#1F2E22'
 const PARCHMENT = '#FBF6EC'
@@ -55,6 +56,7 @@ export default function ManageReservationPage() {
     onSuccess: (response) => {
       setReservation(response.data)
       setShowCancelConfirm(false)
+      toast.success('Reservation cancelled.')
     },
   })
 

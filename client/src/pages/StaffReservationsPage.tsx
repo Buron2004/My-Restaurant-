@@ -5,6 +5,7 @@ import { AdminNav } from '../components/AdminNav'
 import type { ReservationStatus } from '../types/reservation'
 import { StaffReservationsSkeleton } from '../components/StaffReservationsSkeleton'
 import { ErrorState } from '../components/ErrorState'
+import toast from 'react-hot-toast'
 
 const statusLabels: Record<ReservationStatus, string> = {
   PENDING: 'Pending',
@@ -35,20 +36,19 @@ export default function StaffReservationsPage() {
   const queryClient = useQueryClient()
   const [date, setDate] = useState(todayDateString())
   const [statusFilter, setStatusFilter] = useState<ReservationStatus | ''>('')
-  const [notice, setNotice] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   const reservationsQuery = useQuery({
     queryKey: ['staff-reservations', date],
     queryFn: () => fetchReservationsForDate(date),
   })
 
-  const transitionMutation = useMutation({
+    const transitionMutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: ReservationStatus }) => updateReservationStatus(id, status),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['staff-reservations', date] })
-      setNotice({ type: 'success', message: 'Reservation updated.' })
+      toast.success('Reservation updated.')
     },
-    onError: (error: Error) => setNotice({ type: 'error', message: error.message }),
+    onError: (error: Error) => toast.error(error.message),
   })
 
   const data = reservationsQuery.data?.data
@@ -71,12 +71,6 @@ export default function StaffReservationsPage() {
       </header>
 
       <main className="admin-meals-main mx-auto max-w-7xl space-y-6 px-5 py-8 lg:px-8">
-        {notice && (
-          <div className={`notice ${notice.type === 'success' ? 'notice-success' : 'notice-error'}`} role="status">
-            {notice.message}
-            <button onClick={() => setNotice(null)} aria-label="Dismiss notification">×</button>
-          </div>
-        )}
 
         <section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">

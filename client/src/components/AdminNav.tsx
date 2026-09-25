@@ -15,7 +15,7 @@ export function AdminNav() {
 
   const handleLogout = () => {
     clearAuthToken()
-    window.location.assign('/login')
+    window.location.assign('/')
   }
 
   return (

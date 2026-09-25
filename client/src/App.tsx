@@ -9,6 +9,7 @@ import ReservePage from './pages/ReservePage'
 import ManageReservationPage from './pages/ManageReservationPage'
 import StaffReservationsPage from './pages/StaffReservationsPage'
 import MenuPage from './pages/MenuPage'
+import { Toaster } from 'react-hot-toast'
 import './App.css'
 
 function HealthPage() {
@@ -26,6 +27,8 @@ function HealthPage() {
 
 export default function App() {
   return (
+    <>
+    <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/order" element={<OrderPage />} />
@@ -40,5 +43,6 @@ export default function App() {
         <Route path="/staff/reservations" element={<StaffReservationsPage />} />
       </Route>
     </Routes>
+    </>
   )
 }

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { createReservation } from '../api/reservations'
 import type { Reservation } from '../types/reservation'
+import toast from 'react-hot-toast'
 
 const schema = z.object({
   guestName: z.string().trim().min(1, 'Name is required.'),
@@ -41,7 +42,10 @@ export function GuestDetailsForm({ date, startTime, partySize, onBack, onBooked 
         reservationDate: date,
         startTime,
       }),
-    onSuccess: (response) => onBooked(response.data),
+    onSuccess: (response) => {
+      toast.success('Reservation confirmed!')
+      onBooked(response.data)
+    },
   })
 
   return (
