@@ -83,7 +83,7 @@ export default function LandingPage() {
 
                     {mobileNavOpen && (
                         <div className="sm:hidden flex flex-col gap-1 pb-6 text-sm">
-                            <a href="#menu" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Menu</a>
+                            <Link to="/menu" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Menu</Link>
                             <Link to="/reserve" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Reservations</Link>
                             <Link to="/order" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Order online</Link>
                             <Link to="/login" onClick={() => setMobileNavOpen(false)} className="py-2">Staff login</Link>
@@ -278,9 +278,9 @@ export default function LandingPage() {
                         Harvest &amp; Ember
                     </span>
                     <div className="flex flex-wrap gap-x-8 gap-y-2">
-                        <a href="#menu" className="hover:text-white">
+                        <Link to="/menu" className="hover:text-white">
                             Menu
-                        </a>
+                        </Link>
                         <Link to="/reserve" className="hover:text-white">
                             Reservations
                         </Link>
