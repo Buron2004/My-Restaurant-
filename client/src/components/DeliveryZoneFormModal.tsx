@@ -7,7 +7,7 @@ import { Modal } from './Modal'
 
 const schema = z.object({
     label: z.string().trim().min(1, 'Label is required.'),
-    zipPrefix: z.string().trim().optional(),
+    zipPrefix: z.string().trim(),
     fee: z.coerce.number().nonnegative('Fee cannot be negative.'),
 })
 

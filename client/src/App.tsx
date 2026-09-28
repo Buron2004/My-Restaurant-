@@ -12,6 +12,8 @@ import MenuPage from './pages/MenuPage'
 import { Toaster } from 'react-hot-toast'
 import AdminDeliveryZonesPage from './pages/AdminDeliveryZonesPage'
 import { CartProvider } from './context/CartContext'
+import CheckoutPage from './pages/CheckoutPage'
+import OrderConfirmationPage from './pages/OrderConfirmationPage'
 import './App.css'
 
 function HealthPage() {
@@ -34,6 +36,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/order" element={<OrderPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/order-confirmation/:referenceCode" element={<OrderConfirmationPage />} />
         <Route path="/health" element={<HealthPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/reserve" element={<ReservePage />} />
