@@ -10,6 +10,8 @@ import ManageReservationPage from './pages/ManageReservationPage'
 import StaffReservationsPage from './pages/StaffReservationsPage'
 import MenuPage from './pages/MenuPage'
 import { Toaster } from 'react-hot-toast'
+import AdminDeliveryZonesPage from './pages/AdminDeliveryZonesPage'
+import { CartProvider } from './context/CartContext'
 import './App.css'
 
 function HealthPage() {
@@ -27,22 +29,23 @@ function HealthPage() {
 
 export default function App() {
   return (
-    <>
-    <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/order" element={<OrderPage />} />
-      <Route path="/health" element={<HealthPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/reserve" element={<ReservePage />} />
-      <Route path="/manage-reservation" element={<ManageReservationPage />} />
-      <Route path="/menu" element={<MenuPage />} />
-      <Route element={<ProtectedRoute />}>
-        <Route path="/admin/meals" element={<AdminMealsPage />} />
-        <Route path="/admin/tables" element={<AdminTablesPage />} />
-        <Route path="/staff/reservations" element={<StaffReservationsPage />} />
-      </Route>
-    </Routes>
-    </>
+    <CartProvider>
+      <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/order" element={<OrderPage />} />
+        <Route path="/health" element={<HealthPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/reserve" element={<ReservePage />} />
+        <Route path="/manage-reservation" element={<ManageReservationPage />} />
+        <Route path="/menu" element={<MenuPage />} />
+        <Route path="/admin/delivery-zones" element={<AdminDeliveryZonesPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin/meals" element={<AdminMealsPage />} />
+          <Route path="/admin/tables" element={<AdminTablesPage />} />
+          <Route path="/staff/reservations" element={<StaffReservationsPage />} />
+        </Route>
+      </Routes>
+    </CartProvider>
   )
 }

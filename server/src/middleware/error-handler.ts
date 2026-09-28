@@ -49,5 +49,12 @@ export const errorHandler: ErrorRequestHandler = (
     }
   }
 
+  if (error instanceof SyntaxError && 'body' in error) {
+    return sendError(response, 'INVALID_JSON', 'The request body is not valid JSON.', 400)
+  }
+
+  // Anything reaching here is genuinely unexpected — log it so it's actually debuggable,
+  // even though the client only ever sees the generic message below.
+  console.error('Unhandled error:', error)
   return sendError(response, 'INTERNAL_SERVER_ERROR', 'An unexpected server error occurred.', 500)
 }

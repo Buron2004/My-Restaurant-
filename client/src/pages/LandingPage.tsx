@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchCuisines, fetchMeals } from '../api/meals'
 import type { Meal } from '../types/meal'
+import { formatCurrency } from '../utils/currency'
 
 const FOREST = '#1F2E22'
 const PARCHMENT = '#FBF6EC'
@@ -13,9 +14,6 @@ const CHARCOAL = '#241C16'
 const display = { fontFamily: "'Fraunces', serif" }
 const body = { fontFamily: "'Inter', sans-serif" }
 
-function formatPrice(minorUnits: number) {
-    return `$${(minorUnits / 100).toFixed(2)}`
-}
 
 function MenuRow({ meal }: { meal: Meal }) {
     return (
@@ -28,7 +26,7 @@ function MenuRow({ meal }: { meal: Meal }) {
             </span>
             <span className="flex-1 border-b border-dotted -translate-y-1" style={{ borderColor: `${CHARCOAL}55` }} />
             <span style={{ ...body, color: CHARCOAL }} className="font-semibold whitespace-nowrap">
-                {formatPrice(meal.price)}
+                {formatCurrency(meal.price)}
             </span>
         </div>
     )

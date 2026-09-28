@@ -1,13 +1,11 @@
 import type { Meal } from '../types/meal'
 import { Modal } from './Modal'
 import { StatusBadge } from './StatusBadge'
+import { formatCurrency } from '../utils/currency'
 
 const FOREST = '#1F2E22'
 const HERB = '#4B6B4F'
 
-function formatPrice(minorUnits: number) {
-  return `$${(minorUnits / 100).toFixed(2)}`
-}
 
 interface Props {
   meal: Meal
@@ -67,7 +65,7 @@ export function MealDetailModal({ meal, onClose }: Props) {
         )}
 
         <p className="text-2xl font-bold" style={{ color: FOREST }}>
-          {formatPrice(meal.price)}
+          {formatCurrency(meal.price)}
         </p>
       </div>
     </Modal>

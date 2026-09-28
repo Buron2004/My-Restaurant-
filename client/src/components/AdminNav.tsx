@@ -6,6 +6,7 @@ const links = [
   { to: '/staff/reservations', label: 'Reservations' },
   { to: '/admin/meals', label: 'Meals' },
   { to: '/admin/tables', label: 'Tables' },
+  { to: '/admin/delivery-zones', label: 'Delivery Zones' },
   { to: '/', label: 'View public site' },
 ]
 

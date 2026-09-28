@@ -8,6 +8,8 @@ import { healthRouter } from './routes/health.routes.js'
 import { mealRouter } from './routes/meal.routes.js'
 import { reservationRouter } from './routes/reservation.routes.js'
 import { tableRouter } from './routes/table.routes.js'
+import { deliveryZoneRouter } from './routes/delivery-zone.routes.js'
+import { orderRouter } from './routes/order.routes.js'
 
 
 export const app = express()
@@ -29,5 +31,7 @@ app.use('/api/cuisines', cuisineRouter)
 app.use('/api/meals', mealRouter)
 app.use('/api/tables', tableRouter)
 app.use('/api/reservations', reservationRouter)
+app.use('/api/delivery-zones', deliveryZoneRouter)
+app.use('/api/orders', orderRouter)
 app.use(notFoundHandler)
 app.use(errorHandler)
