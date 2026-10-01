@@ -6,6 +6,8 @@ import { AppError } from '../middleware/error-handler.js'
 import { findActiveDefaultZone, findMatchingZoneForZip } from '../repositories/delivery-zone.repository.js'
 import { createOrderRecord, findMealsByIds } from '../repositories/order.repository.js'
 import type { CreateOrderInput } from '../schemas/order.schema.js'
+import { cancelOrderById, findOrderByReferenceAndPhone } from '../repositories/order.repository.js'
+import type { LookupOrderInput } from '../schemas/order.schema.js'
 
 const REFERENCE_CHARSET = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ' // no 0/O/1/I — easier to read aloud
 const MAX_REFERENCE_ATTEMPTS = 5
@@ -104,4 +106,37 @@ export async function placeOrder(input: CreateOrderInput) {
   }
 
   throw new AppError('ORDER_CREATE_FAILED', 'Could not place your order. Please try again.', 500)
+}
+
+const CANCELLABLE_ORDER_STATUSES = ['PENDING', 'CONFIRMED']
+
+// Same generic-error principle as reservation lookup: never reveal whether the
+// reference or the phone was the part that didn't match.
+async function findOrderOrThrow(input: LookupOrderInput) {
+  const normalizedCode = input.referenceCode.trim().toUpperCase()
+  const order = await findOrderByReferenceAndPhone(normalizedCode, input.guestPhone.trim())
+
+  if (!order) {
+    throw new AppError('ORDER_NOT_FOUND', 'No order was found matching that reference and phone number.', 404)
+  }
+
+  return order
+}
+
+export async function lookupOrder(input: LookupOrderInput) {
+  return findOrderOrThrow(input)
+}
+
+export async function cancelOrderByLookup(input: LookupOrderInput) {
+  const order = await findOrderOrThrow(input)
+
+  if (!CANCELLABLE_ORDER_STATUSES.includes(order.status)) {
+    throw new AppError(
+      'ORDER_NOT_CANCELLABLE',
+      'This order can no longer be cancelled online. Please contact the restaurant directly.',
+      409,
+    )
+  }
+
+  return cancelOrderById(order.id)
 }

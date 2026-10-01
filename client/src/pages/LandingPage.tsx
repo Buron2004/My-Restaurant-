@@ -66,7 +66,9 @@ export default function LandingPage() {
                             <Link to="/menu" className="hover:opacity-80">Menu</Link>
                             <Link to="/reserve" className="hover:opacity-80">Reservations</Link>
                             <Link to="/order" className="hover:opacity-80">Order online</Link>
+                            <Link to="/track-order" className="hover:opacity-80">Track order</Link>
                             <Link to="/login" className="hover:opacity-80">Staff login</Link>
+                            
                         </div>
 
                         <button
@@ -84,10 +86,9 @@ export default function LandingPage() {
                             <Link to="/menu" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Menu</Link>
                             <Link to="/reserve" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Reservations</Link>
                             <Link to="/order" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Order online</Link>
-                            <Link to="/login" onClick={() => setMobileNavOpen(false)} className="py-2">Staff login</Link>
-                            <Link to="/manage-reservation" className="hover:opacity-80">
-                                Manage booking
-                            </Link>
+                            <Link to="/manage-reservation" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Manage reservation</Link>
+                            <Link to="/track-order" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Track order</Link>
+                            <Link to="/login" onClick={() => setMobileNavOpen(false)} className="py-2 border-b border-white/10">Staff login</Link>
                         </div>
                     )}
                 </div>
@@ -285,11 +286,11 @@ export default function LandingPage() {
                         <Link to="/order" className="hover:text-white">
                             Order online
                         </Link>
-                        <Link to="/login" className="hover:text-white">
-                            Staff login
-                        </Link>
                         <Link to="/manage-reservation" className="hover:opacity-80">
                             Manage booking
+                        </Link>
+                        <Link to="/track-order" className="hover:opacity-80">
+                            Track order
                         </Link>
                     </div>
                 </div>

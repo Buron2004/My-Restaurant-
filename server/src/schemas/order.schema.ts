@@ -19,3 +19,10 @@ export const createOrderSchema = z.object({
 })
 
 export type CreateOrderInput = z.infer<typeof createOrderSchema>
+
+export const lookupOrderSchema = z.object({
+  referenceCode: z.string().trim().min(1, 'Reference code is required.'),
+  guestPhone: z.string().trim().min(1, 'Phone number is required.'),
+})
+
+export type LookupOrderInput = z.infer<typeof lookupOrderSchema>

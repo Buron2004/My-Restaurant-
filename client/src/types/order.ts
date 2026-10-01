@@ -66,3 +66,8 @@ export interface DeliveryQuoteResponse {
   success: true
   data: DeliveryQuote
 }
+
+export interface LookupOrderInput {
+  referenceCode: string
+  guestPhone: string
+}

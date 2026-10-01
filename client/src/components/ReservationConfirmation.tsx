@@ -1,4 +1,5 @@
 import type { Reservation } from '../types/reservation'
+import { CopyButton } from './CopyButton'
 
 interface Props {
   reservation: Reservation
@@ -17,9 +18,9 @@ export function ReservationConfirmation({ reservation, onBookAnother }: Props) {
       </div>
 
       <div className="bg-stone-50 border border-stone-200 rounded-lg p-4 text-left space-y-2">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <span className="text-stone-500">Reference</span>
-          <span className="font-semibold">{reservation.referenceCode}</span>
+          <span className="font-semibold flex items-center gap-1.5">{reservation.referenceCode}<CopyButton value={reservation.referenceCode} /></span>
         </div>
         <div className="flex justify-between">
           <span className="text-stone-500">Date</span>

@@ -1,4 +1,4 @@
-import type { CreateOrderInput, DeliveryQuoteResponse, OrderResponse } from '../types/order'
+import type { CreateOrderInput, DeliveryQuoteResponse, OrderResponse,LookupOrderInput } from '../types/order'
 
 const apiBaseUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api'
 
@@ -28,3 +28,16 @@ export async function createOrder(input: CreateOrderInput) {
     body: JSON.stringify(input),
   })
 }
+
+export async function lookupOrder(referenceCode: string, guestPhone: string) {
+  const params = new URLSearchParams({ ref: referenceCode, phone: guestPhone })
+  return request<OrderResponse>(`/orders/lookup?${params.toString()}`)
+}
+
+export async function cancelOrder(input: { referenceCode: string; guestPhone: string }) {
+  return request<OrderResponse>('/orders/cancel', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  })
+}
+

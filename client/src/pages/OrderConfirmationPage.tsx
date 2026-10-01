@@ -2,6 +2,7 @@ import { Link, useLocation, useParams } from 'react-router-dom'
 import { BackButton } from '../components/BackButton'
 import type { Order } from '../types/order'
 import { formatCurrency } from '../utils/currency'
+import { CopyButton } from '../components/CopyButton'
 
 const FOREST = '#1F2E22'
 const PARCHMENT = '#FBF6EC'
@@ -40,7 +41,7 @@ export default function OrderConfirmationPage() {
           </div>
 
           <div className="bg-stone-50 border border-stone-200 rounded-lg p-4 text-left space-y-2 text-sm">
-            <div className="flex justify-between"><span className="text-stone-500">Reference</span><span className="font-semibold">{order.referenceCode}</span></div>
+            <div className="flex justify-between items-center"><span className="text-stone-500">Reference</span><span className="font-semibold flex items-center gap-1.5">{order.referenceCode}<CopyButton value={order.referenceCode} /></span></div>
             <div className="flex justify-between"><span className="text-stone-500">Delivering to</span><span className="font-semibold">{order.deliveryStreet}, {order.deliveryCity}</span></div>
             <div className="flex justify-between"><span className="text-stone-500">Subtotal</span><span className="font-semibold">{formatCurrency(order.subtotal)}</span></div>
             <div className="flex justify-between"><span className="text-stone-500">Delivery fee</span><span className="font-semibold">{formatCurrency(order.deliveryFee)}</span></div>

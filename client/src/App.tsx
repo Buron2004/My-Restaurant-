@@ -14,6 +14,7 @@ import AdminDeliveryZonesPage from './pages/AdminDeliveryZonesPage'
 import { CartProvider } from './context/CartContext'
 import CheckoutPage from './pages/CheckoutPage'
 import OrderConfirmationPage from './pages/OrderConfirmationPage'
+import TrackOrderPage from './pages/TrackOrderPage'
 import './App.css'
 
 function HealthPage() {
@@ -43,11 +44,12 @@ export default function App() {
         <Route path="/reserve" element={<ReservePage />} />
         <Route path="/manage-reservation" element={<ManageReservationPage />} />
         <Route path="/menu" element={<MenuPage />} />
-        <Route path="/admin/delivery-zones" element={<AdminDeliveryZonesPage />} />
+        <Route path="/track-order" element={<TrackOrderPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/admin/meals" element={<AdminMealsPage />} />
           <Route path="/admin/tables" element={<AdminTablesPage />} />
           <Route path="/staff/reservations" element={<StaffReservationsPage />} />
+          <Route path="/admin/delivery-zones" element={<AdminDeliveryZonesPage />} />
         </Route>
       </Routes>
     </CartProvider>
