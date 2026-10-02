@@ -8,6 +8,13 @@ import { createOrderRecord, findMealsByIds } from '../repositories/order.reposit
 import type { CreateOrderInput } from '../schemas/order.schema.js'
 import { cancelOrderById, findOrderByReferenceAndPhone } from '../repositories/order.repository.js'
 import type { LookupOrderInput } from '../schemas/order.schema.js'
+import {
+  findOrderById,
+  listOrders,
+  updateOrderPaymentStatus,
+  updateOrderStatus,
+} from '../repositories/order.repository.js'
+import type { OrderListQuery, UpdateOrderPaymentStatusInput, UpdateOrderStatusInput } from '../schemas/order.schema.js'
 
 const REFERENCE_CHARSET = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ' // no 0/O/1/I — easier to read aloud
 const MAX_REFERENCE_ATTEMPTS = 5
@@ -139,4 +146,36 @@ export async function cancelOrderByLookup(input: LookupOrderInput) {
   }
 
   return cancelOrderById(order.id)
+}
+
+const ALLOWED_ORDER_TRANSITIONS: Record<string, string[]> = {
+  PENDING: ['CONFIRMED', 'CANCELLED'],
+  CONFIRMED: ['PREPARING', 'CANCELLED'],
+  PREPARING: ['OUT_FOR_DELIVERY'],
+  OUT_FOR_DELIVERY: ['DELIVERED'],
+  DELIVERED: [],
+  CANCELLED: [],
+}
+
+export async function getOrders(query: OrderListQuery) {
+  return listOrders(query.status)
+}
+
+export async function transitionOrderStatus(id: string, input: UpdateOrderStatusInput) {
+  const order = await findOrderById(id)
+  if (!order) throw new AppError('ORDER_NOT_FOUND', 'Order not found.', 404)
+
+  const allowedNext = ALLOWED_ORDER_TRANSITIONS[order.status] ?? []
+  if (!allowedNext.includes(input.status)) {
+    throw new AppError('INVALID_STATUS_TRANSITION', `Cannot move an order from ${order.status} to ${input.status}.`, 409)
+  }
+
+  return updateOrderStatus(id, input.status)
+}
+
+export async function markOrderPaymentStatus(id: string, input: UpdateOrderPaymentStatusInput) {
+  const order = await findOrderById(id)
+  if (!order) throw new AppError('ORDER_NOT_FOUND', 'Order not found.', 404)
+
+  return updateOrderPaymentStatus(id, input.paymentStatus)
 }

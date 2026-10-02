@@ -27,3 +27,23 @@ export function cancelOrderById(id: string) {
     include: { items: true },
   })
 }
+
+export function listOrders(status?: string) {
+  return prisma.order.findMany({
+    where: status ? { status: status as never } : {},
+    orderBy: { createdAt: 'desc' },
+    include: { items: true },
+  })
+}
+
+export function findOrderById(id: string) {
+  return prisma.order.findUnique({ where: { id }, include: { items: true } })
+}
+
+export function updateOrderStatus(id: string, status: string) {
+  return prisma.order.update({ where: { id }, data: { status: status as never }, include: { items: true } })
+}
+
+export function updateOrderPaymentStatus(id: string, paymentStatus: string) {
+  return prisma.order.update({ where: { id }, data: { paymentStatus: paymentStatus as never }, include: { items: true } })
+}

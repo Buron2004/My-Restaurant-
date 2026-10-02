@@ -26,3 +26,23 @@ export const lookupOrderSchema = z.object({
 })
 
 export type LookupOrderInput = z.infer<typeof lookupOrderSchema>
+
+export const orderListQuerySchema = z.object({
+  status: z.enum(['PENDING', 'CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED']).optional(),
+})
+
+export const updateOrderStatusSchema = z.object({
+  status: z.enum(['PENDING', 'CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED']),
+})
+
+export const updateOrderPaymentStatusSchema = z.object({
+  paymentStatus: z.enum(['UNPAID', 'PAID']),
+})
+
+export const orderIdSchema = z.object({
+  id: z.string().min(1, 'Order id is required.'),
+})
+
+export type OrderListQuery = z.infer<typeof orderListQuerySchema>
+export type UpdateOrderStatusInput = z.infer<typeof updateOrderStatusSchema>
+export type UpdateOrderPaymentStatusInput = z.infer<typeof updateOrderPaymentStatusSchema>

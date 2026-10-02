@@ -49,6 +49,7 @@ export interface Order {
   specialInstructions: string | null
   items: OrderItem[]
   paymentInstructions: PaymentInstructions | null
+  createdAt: string
 }
 
 export interface OrderResponse {

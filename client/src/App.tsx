@@ -15,6 +15,7 @@ import { CartProvider } from './context/CartContext'
 import CheckoutPage from './pages/CheckoutPage'
 import OrderConfirmationPage from './pages/OrderConfirmationPage'
 import TrackOrderPage from './pages/TrackOrderPage'
+import StaffOrdersPage from './pages/StaffOrdersPage'
 import './App.css'
 
 function HealthPage() {
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/admin/tables" element={<AdminTablesPage />} />
           <Route path="/staff/reservations" element={<StaffReservationsPage />} />
           <Route path="/admin/delivery-zones" element={<AdminDeliveryZonesPage />} />
+          <Route path="/staff/orders" element={<StaffOrdersPage />} />
         </Route>
       </Routes>
     </CartProvider>

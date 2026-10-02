@@ -1,4 +1,4 @@
-import type { CreateOrderInput, DeliveryQuoteResponse, OrderResponse,LookupOrderInput } from '../types/order'
+import type { CreateOrderInput, DeliveryQuoteResponse, Order, OrderResponse } from '../types/order'
 
 const apiBaseUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api'
 
@@ -15,6 +15,11 @@ async function request<T extends object>(path: string, options: RequestOptions =
     throw new Error('error' in body ? body.error.message : 'Request failed')
   }
   return body as T
+}
+
+function authHeaders(): Record<string, string> {
+  const token = localStorage.getItem('authToken')
+  return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
 export async function fetchDeliveryQuote(zip: string) {
@@ -41,3 +46,25 @@ export async function cancelOrder(input: { referenceCode: string; guestPhone: st
   })
 }
 
+export async function fetchOrders(status?: string) {
+  const params = new URLSearchParams(status ? { status } : {})
+  return request<{ success: true; data: Order[] }>(`/orders?${params.toString()}`, {
+    headers: authHeaders(),
+  })
+}
+
+export async function updateOrderStatus(id: string, status: string) {
+  return request<OrderResponse>(`/orders/${id}/status`, {
+    method: 'PATCH',
+    headers: authHeaders(),
+    body: JSON.stringify({ status }),
+  })
+}
+
+export async function updateOrderPaymentStatus(id: string, paymentStatus: string) {
+  return request<OrderResponse>(`/orders/${id}/payment-status`, {
+    method: 'PATCH',
+    headers: authHeaders(),
+    body: JSON.stringify({ paymentStatus }),
+  })
+}

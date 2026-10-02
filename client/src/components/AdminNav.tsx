@@ -4,6 +4,7 @@ import { clearAuthToken } from '../utils/auth'
 
 const links = [
   { to: '/staff/reservations', label: 'Reservations' },
+  { to: '/staff/orders', label: 'Orders' },
   { to: '/admin/meals', label: 'Meals' },
   { to: '/admin/tables', label: 'Tables' },
   { to: '/admin/delivery-zones', label: 'Delivery Zones' },
